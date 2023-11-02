@@ -5,18 +5,21 @@ const mysql = require('mysql2/promise');
 // create and config server
 const server = express();
 server.use(cors());
-server.use(express.json({ limit: "25mb" }));
+server.use(express.json({ limit: '25mb' }));
 
-async function getConnection() {  
-  //crear y configurar la conexion  
+async function getConnection() {
+  //crear y configurar la conexion
   const connection = await mysql.createConnection({
-    host: "localhost",
-    user: "root", 
-    password: "ffuunnaaii", 
-    database: "Netflix",});  
-    
-    connection.connect(); 
-    return connection;}
+    host: 'localhost',
+    user: 'root',
+    // password: "ffuunnaaii",
+    password: 'buckBeack',
+    database: 'Netflix',
+  });
+
+  connection.connect();
+  return connection;
+}
 
 // init express aplication
 const serverPort = 4000;
@@ -24,7 +27,7 @@ server.listen(serverPort, () => {
   console.log(`Server listening at http://localhost:${serverPort}`);
 });
 
-server.get("/movies", async (req, res) => {
+server.get('/movies', async (req, res) => {
   //require para cuando envien datos
   //response para enviar desde el server datos al front
 
@@ -33,7 +36,7 @@ server.get("/movies", async (req, res) => {
   const conn = await getConnection();
 
   //. 2. Consulta que quiero a la bd: obtener todas las alumnas
-  const queryMovies = "SELECT * FROM movies";
+  const queryMovies = 'SELECT * FROM movies';
 
   //3. Ejecutar la consulta
   const [results, fields] = await conn.query(queryMovies);
@@ -44,7 +47,7 @@ server.get("/movies", async (req, res) => {
   //4. Cerra la conexión
   conn.end();
   res.json({
-      success: true,
-      movies:  results
-    });
+    success: true,
+    movies: results,
+  });
 });
