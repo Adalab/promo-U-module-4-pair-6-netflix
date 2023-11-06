@@ -33,14 +33,14 @@ Por favor marca a continuación los ejercicios que hayáis terminado:
 
 **4.5 Express JS con MySQL:**
 
-- [ ] 1. Pide todas las películas
-- [ ] 2. Servidor de estáticos para React
+- [x] 1. Pide todas las películas
+- [x] 2. Servidor de estáticos para React
 - [ ] 3. Servidor de estáticos para las fotos
 
 **4.6 Peticiones con parámetros:**
 
-- [ ] 1. Filtrar por género
-- [ ] 2. Ordenar por nombre
+- [x] 1. Filtrar por género
+- [x] 2. Ordenar por nombre
 
 **4.7 Motores de plantillas:**
 
