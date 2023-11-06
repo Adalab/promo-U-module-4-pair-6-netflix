@@ -12,8 +12,8 @@ async function getConnection() {
   const connection = await mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    // password: "ffuunnaaii",
-    password: 'buckBeack',
+    password: "ffuunnaaii",
+    //password: 'buckBeack',
     database: 'Netflix',
   });
 
@@ -28,22 +28,18 @@ server.listen(serverPort, () => {
 });
 
 server.get('/movies', async (req, res) => {
-  //require para cuando envien datos
-  //response para enviar desde el server datos al front
-
-  //Obtener los datos de la bases de datos
-  // 1. Obtener la conexion
+  const genreFilterParam = req.query.genre;
+  const sortParam = req.query.sort;
   const conn = await getConnection();
-
-  //. 2. Consulta que quiero a la bd: obtener todas las alumnas
-  const queryMovies = 'SELECT * FROM movies';
-
-  //3. Ejecutar la consulta
+  let queryMovies = '';
+  if (!genreFilterParam) {
+    queryMovies = `SELECT * FROM movies order by title ${sortParam || ''}`;
+  } else {
+    queryMovies = `SELECT * FROM movies WHERE genre="${genreFilterParam}" order by title ${
+      sortParam || ''
+    }`;
+  }
   const [results, fields] = await conn.query(queryMovies);
-
-  console.log(fields);
-  console.log(results);
-
   //4. Cerra la conexión
   conn.end();
   res.json({
