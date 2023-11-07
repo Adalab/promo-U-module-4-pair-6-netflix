@@ -2,6 +2,9 @@ const express = require('express');
 const cors = require('cors');
 const mysql = require('mysql2/promise');
 
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+
 // create and config server
 const server = express();
 server.use(cors());
@@ -56,6 +59,24 @@ server.get('/movies/:movieId', async (req, res) => {
   const [results] = await conn.query(queryMovies, [req.params.movieId]);
   res.render('movie', {
     movie: results[0],
+  });
+});
+
+server.post('/sign-up', async (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
+
+  const passwordHashed = await bcrypt.hash(password, 10);
+
+  const sql = 'INSERT INTO users(email, password) VALUES (?, ?)';
+
+  const conn = await getConnection();
+
+  const [results] = await conn.query(sql, [email, passwordHashed]);
+  conn.end();
+  res.json({
+    success: true,
+    id: results.insertId,
   });
 });
 
