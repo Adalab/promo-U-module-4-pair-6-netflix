@@ -44,16 +44,16 @@ Por favor marca a continuación los ejercicios que hayáis terminado:
 
 **4.7 Motores de plantillas:**
 
-- [ ] 1. Crea un motor de plantillas
-  - [ ] 1. Obtener el id de la película a renderizar
-  - [ ] 2. Obtener la película
-  - [ ] 3. Renderiza una página cualquiera
-  - [ ] 4. Renderiza la película
+- [x] 1. Crea un motor de plantillas
+  - [x] 1. Obtener el id de la película a renderizar
+  - [x] 2. Obtener la película
+  - [x] 3. Renderiza una página cualquiera
+  - [x] 4. Renderiza la película
   - [ ] 5. Añade estilos
 
 **4.8 Autenticación y autorización:**
 
-- [ ] 1. Registro de nuevas usuarias
+- [x] 1. Registro de nuevas usuarias
 - [ ] 2. Login
 - [ ] 3. Bonus Mantén logueada a la usuaria
 
