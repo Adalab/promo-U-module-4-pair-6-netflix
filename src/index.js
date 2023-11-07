@@ -2,7 +2,6 @@ const express = require('express');
 const cors = require('cors');
 const mysql = require('mysql2/promise');
 
-
 // create and config server
 const server = express();
 server.use(cors());
@@ -14,8 +13,8 @@ async function getConnection() {
   const connection = await mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: "ffuunnaaii",
-    //password: 'buckBeack',
+    // password: "ffuunnaaii",
+    password: 'buckBeack',
     database: 'Netflix',
   });
 
@@ -50,16 +49,18 @@ server.get('/movies', async (req, res) => {
   });
 });
 
-server.get('/movies/:movieId', async(req, res) => {
+server.get('/movies/:movieId', async (req, res) => {
   console.log(req.params.movieId);
-  const queryMovies = `SELECT * FROM movies WHERE idMovies=${req.params.movieId};`;
+  const queryMovies = 'SELECT * FROM movies WHERE idMovies=?;';
   const conn = await getConnection();
-  const[results] = await conn.query(queryMovies, [req.params.movieId]);
-  res.render("movie", {
-    movie: results[0]
+  const [results] = await conn.query(queryMovies, [req.params.movieId]);
+  res.render('movie', {
+    movie: results[0],
   });
-
- });
+});
 
 const staticServerPathWeb = './src/public-react';
 server.use(express.static(staticServerPathWeb));
+
+const staticServerCss = './src/public-react/assets';
+server.use(express.static(staticServerCss));
