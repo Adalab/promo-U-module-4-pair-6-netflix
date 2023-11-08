@@ -80,6 +80,43 @@ server.post('/sign-up', async (req, res) => {
   });
 });
 
+server.post('/login', async (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
+
+  const sql = "SELECT * FROM users WHERE email = ?";
+
+  const conn = await getConnection();
+
+  const [results] = await conn.query(sql, [email]);
+  const result = results[0];
+  console.log(result);
+
+  //Comprobar si el usuario y la contraseña coincide con la que está en BD: bcrypt
+  const isOkPass =
+    result === null
+      ? false
+      : await bcrypt.compare(password, result.password);
+
+  //Si el usuario no existe o la contraseña es incorrecta -> credenciales no válidas
+  if (!(isOkPass && result)) {
+    return res.json({ success: false, error: "Credenciales inválidas" });
+  }
+
+  //si el usaurio existe y la contraseña coincide: generar un token
+  const infoToken = {
+    email: result.email,
+    idUser: result.idUser,
+  };
+
+  const token = generateToken(infoToken);
+
+  res.json({ success: true, token, email: result.email });
+
+  //envio una respuesta correcta
+});
+
+
 const staticServerPathWeb = './src/public-react';
 server.use(express.static(staticServerPathWeb));
 server.use(express.static("public"));

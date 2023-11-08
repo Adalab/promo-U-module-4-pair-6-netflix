@@ -54,7 +54,7 @@ Por favor marca a continuación los ejercicios que hayáis terminado:
 **4.8 Autenticación y autorización:**
 
 - [x] 1. Registro de nuevas usuarias
-- [ ] 2. Login
+- [-] 2. Login
 - [ ] 3. Bonus Mantén logueada a la usuaria
 
 **4.9 Testing:**
