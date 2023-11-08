@@ -16,8 +16,8 @@ async function getConnection() {
   const connection = await mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    // password: "ffuunnaaii",
-    password: 'buckBeack',
+    password: "ffuunnaaii",
+    //password: 'buckBeack',
     database: 'Netflix',
   });
 
@@ -82,6 +82,4 @@ server.post('/sign-up', async (req, res) => {
 
 const staticServerPathWeb = './src/public-react';
 server.use(express.static(staticServerPathWeb));
-
-const staticServerCss = './src/public-react/assets';
-server.use(express.static(staticServerCss));
+server.use(express.static("public"));
