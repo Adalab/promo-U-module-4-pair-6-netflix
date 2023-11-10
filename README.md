@@ -64,8 +64,8 @@ Por favor marca a continuación los ejercicios que hayáis terminado:
 
 **4.10 Fundamentos de MongoDB:**
 
-- [ ] 1. Configura MongoDB Atlas
-- [ ] 2. Crea la bases de datos Netflix
+- [x] 1. Configura MongoDB Atlas
+- [x] 2. Crea la bases de datos Netflix
 
 **4.11 Express JS y Mongo DB:**
 

@@ -16,8 +16,8 @@ async function getConnection() {
   const connection = await mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: "ffuunnaaii",
-    //password: 'buckBeack',
+    // password: "ffuunnaaii",
+    password: 'buckBeack',
     database: 'Netflix',
   });
 
@@ -84,7 +84,7 @@ server.post('/login', async (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
 
-  const sql = "SELECT * FROM users WHERE email = ?";
+  const sql = 'SELECT * FROM users WHERE email = ?';
 
   const conn = await getConnection();
 
@@ -92,16 +92,34 @@ server.post('/login', async (req, res) => {
   const result = results[0];
   console.log(result);
 
-  //Comprobar si el usuario y la contraseña coincide con la que está en BD: bcrypt
+  // Comprobar si el usuario y la contraseña coincide con la que está en BD: bcrypt
   const isOkPass =
     result === null
       ? false
-      : await bcrypt.compare(password, result.password);
+      : await bcrypt.compare(password, result.hashed_password);
 
   //Si el usuario no existe o la contraseña es incorrecta -> credenciales no válidas
   if (!(isOkPass && result)) {
-    return res.json({ success: false, error: "Credenciales inválidas" });
+    return res.json({ success: false, error: 'Credenciales inválidas' });
   }
+
+  // try {
+  //   const isOkPass =
+  //     result === null || result.hashed_password === undefined
+  //       ? false
+  //       : await bcrypt.compare(password, result.hashed_password);
+
+  //   if (!isOkPass) {
+  //     return res.json({ success: false, error: 'Credenciales inválidas' });
+  //   }
+
+  //   // Rest of the code for successful login
+  // } catch (error) {
+  //   console.error('Error during password comparison:', error);
+  //   return res.json({ success: false, error: 'Error de servidor' });
+  // }
+
+  console.log(isOkPass);
 
   //si el usaurio existe y la contraseña coincide: generar un token
   const infoToken = {
@@ -116,7 +134,6 @@ server.post('/login', async (req, res) => {
   //envio una respuesta correcta
 });
 
-
 const staticServerPathWeb = './src/public-react';
 server.use(express.static(staticServerPathWeb));
-server.use(express.static("public"));
+server.use(express.static('public'));
