@@ -11,6 +11,7 @@ const server = express();
 server.use(cors());
 server.use(express.json({ limit: '25mb' }));
 server.set('view engine', 'ejs');
+dbConnect();
 
 async function getConnection() {
   //crear y configurar la conexion
@@ -32,26 +33,41 @@ server.listen(serverPort, () => {
   console.log(`Server listening at http://localhost:${serverPort}`);
 });
 
-server.get('/movies', async (req, res) => {
-  const genreFilterParam = req.query.genre;
-  const sortParam = req.query.sort;
-  const conn = await getConnection();
-  let queryMovies = '';
-  if (!genreFilterParam) {
-    queryMovies = `SELECT * FROM movies order by title ${sortParam || ''}`;
-  } else {
-    queryMovies = `SELECT * FROM movies WHERE genre="${genreFilterParam}" order by title ${
-      sortParam || ''
-    }`;
-  }
-  const [results, fields] = await conn.query(queryMovies);
-  //4. Cerra la conexión
-  conn.end();
-  res.json({
-    success: true,
-    movies: results,
+const Movie = require('./models/movies');
+server.get('/movies_all_mongo', async (req, res) => {
+try {
+  const result = await Movie.find();
+  res.json(result);
+} catch (error) {
+  res.status(501).json({
+    success: false,
+    error: error,
   });
-});
+}
+}
+);
+
+
+// server.get('/movies', async (req, res) => {
+//   const genreFilterParam = req.query.genre;
+//   const sortParam = req.query.sort;
+//   const conn = await getConnection();
+//   let queryMovies = '';
+//   if (!genreFilterParam) {
+//     queryMovies = `SELECT * FROM movies order by title ${sortParam || ''}`;
+//   } else {
+//     queryMovies = `SELECT * FROM movies WHERE genre="${genreFilterParam}" order by title ${
+//       sortParam || ''
+//     }`;
+//   }
+//   const [results, fields] = await conn.query(queryMovies);
+//   //4. Cerra la conexión
+//   conn.end();
+//   res.json({
+//     success: true,
+//     movies: results,
+//   });
+// });
 
 server.get('/movies/:movieId', async (req, res) => {
   console.log(req.params.movieId);
