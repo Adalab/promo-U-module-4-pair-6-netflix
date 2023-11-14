@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const mysql = require('mysql2/promise');
-const dbConnect = require('./config/connection')
+const dbConnect = require('./config/connection');
 
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
@@ -33,20 +33,13 @@ server.listen(serverPort, () => {
   console.log(`Server listening at http://localhost:${serverPort}`);
 });
 
-const Movie = require('./models/movies');
-server.get('/movies_all_mongo', async (req, res) => {
-try {
-  const result = await Movie.find();
-  res.json(result);
-} catch (error) {
-  res.status(501).json({
-    success: false,
-    error: error,
-  });
-}
-}
-);
+const moviesController = require('./controllers/moviesController');
 
+server.get('/movies_all_mongo', async (req, res) => {
+  moviesController.getMovies(req, res);
+});
+
+//CODIGO MYSQL
 
 // server.get('/movies', async (req, res) => {
 //   const genreFilterParam = req.query.genre;
